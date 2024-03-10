@@ -67,6 +67,7 @@
     </dependencies>
 
     <build>
+        <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -102,7 +103,6 @@
                 </configuration>
             </plugin>
         </plugins>
-        <defaultGoal>install</defaultGoal>
     </build>
 
 </project>
