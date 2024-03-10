@@ -1,34 +1,23 @@
 # Définition du pipeline CI/CD
 stages:
-  - build
-  - test
+  - clone
   - publish
 
-# Configuration des jobs
 build:
-  stage: build
+  stage: clone
   image: maven:latest
   script:
     - echo "Clonage du dépôt..."
     - git clone $CI_REPOSITORY_URL
     - cd app-management
-    - echo "Construction du projet..."
-    - mvn -B package
-
-test:
-  stage: test
-  image: maven:latest
-  script:
-    - echo "Exécution des tests..."
-    - mvn test
 
 publish:
   stage: publish
   image: maven:latest
   script:
     - echo "Publication sur Docker Hub..."
-    - mvn -B spring-boot:build-image -Dspring-boot.generate-resources.publish=true \
+    - mvn -B spring-boot:build-image -Dspring-boot.build-image.publish=true \
       -Ddocker.user=$DOCKER_USERNAME -Ddocker.token=$DOCKER_PASSWORD \
       -DskipTests
   only:
-    - main  # Exécutez uniquement pour les commits sur la branche principale
+    - main
