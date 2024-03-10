@@ -16,8 +16,4 @@ publish:
   image: maven:latest
   script:
     - echo "Publication sur Docker Hub..."
-    - mvn -B spring-boot:build-image -Dspring-boot.build-image.publish=true \
-      -Ddocker.user=$DOCKER_USERNAME -Ddocker.token=$DOCKER_PASSWORD \
-      -DskipTests
-  only:
-    - main
+    - mvn -B spring-boot:build-image -Dspring-boot.build-image.publish=true -Ddocker.user=$DOCKER_USERNAME -Ddocker.password=$DOCKER_PASSWORD -DskipTests
