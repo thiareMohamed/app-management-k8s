@@ -76,15 +76,11 @@
                 </configuration>
             </plugin>
             <plugin>
+                <goals>
+                    <goal>build-image</goal>
+                </goals>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -106,6 +102,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        <defaultGoal>install</defaultGoal>
     </build>
 
 </project>
