@@ -1,4 +1,4 @@
-package web.management.payload;
+package sn.thiare.appmanagement.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

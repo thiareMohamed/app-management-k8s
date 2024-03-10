@@ -1,4 +1,4 @@
-package web.management.entity;
+package sn.thiare.appmanagement.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

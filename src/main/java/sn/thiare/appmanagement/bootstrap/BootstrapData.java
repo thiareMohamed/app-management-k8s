@@ -1,11 +1,11 @@
-package web.management.bootstrap;
+package sn.thiare.appmanagement.bootstrap;
 
+import com.github.javafaker.Faker;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import web.management.entity.Student;
-import web.management.repository.StudentRepository;
-import com.github.javafaker.Faker;
+import sn.thiare.appmanagement.entity.Student;
+import sn.thiare.appmanagement.repository.StudentRepository;
 
 @Component
 @AllArgsConstructor

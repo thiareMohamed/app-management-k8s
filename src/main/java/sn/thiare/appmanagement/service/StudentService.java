@@ -1,7 +1,7 @@
-package web.management.service;
+package sn.thiare.appmanagement.service;
 
 import org.springframework.data.domain.Page;
-import web.management.entity.Student;
+import sn.thiare.appmanagement.entity.Student;
 
 import java.util.Optional;
 

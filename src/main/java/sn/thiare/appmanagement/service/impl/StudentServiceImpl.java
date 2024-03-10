@@ -1,4 +1,4 @@
-package web.management.service.impl;
+package sn.thiare.appmanagement.service.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -6,9 +6,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import web.management.entity.Student;
-import web.management.repository.StudentRepository;
-import web.management.service.StudentService;
+import sn.thiare.appmanagement.entity.Student;
+import sn.thiare.appmanagement.repository.StudentRepository;
+import sn.thiare.appmanagement.service.StudentService;
 
 import java.util.Optional;
 

@@ -1,12 +1,13 @@
-package web.management.controller;
+package sn.thiare.appmanagement.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import web.management.entity.Student;
-import web.management.service.StudentService;
+import sn.thiare.appmanagement.entity.Student;
+import sn.thiare.appmanagement.service.StudentService;
+
 
 import java.text.MessageFormat;
 import java.util.List;

@@ -1,10 +1,10 @@
-package web.management.repository;
+package sn.thiare.appmanagement.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import web.management.entity.Student;
+import sn.thiare.appmanagement.entity.Student;
 
 import java.util.Optional;
 

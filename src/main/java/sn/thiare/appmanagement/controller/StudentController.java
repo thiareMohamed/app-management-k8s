@@ -1,12 +1,12 @@
-package web.management.controller;
+package sn.thiare.appmanagement.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import web.management.entity.Student;
-import web.management.payload.FilterPayload;
-import web.management.service.StudentService;
+import sn.thiare.appmanagement.entity.Student;
+import sn.thiare.appmanagement.payload.FilterPayload;
+import sn.thiare.appmanagement.service.StudentService;
 
 @Controller
 public class StudentController {
