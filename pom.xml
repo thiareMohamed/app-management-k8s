@@ -67,6 +67,7 @@
     </dependencies>
 
     <build>
+        <finalName>app-management</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
