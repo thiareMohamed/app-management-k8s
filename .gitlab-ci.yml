@@ -28,6 +28,6 @@ deploy:
     - echo "Construction de l'image Docker..."
     - docker build -t $DOCKER_USERNAME/app-management .
     - echo "Pousser l'image Docker sur Docker Hub..."
-    - docker push $DOCKER_USERNAME/app-management
+    - docker push $DOCKER_USERNAME/app-managemen
   only:
     - main  # Exécutez uniquement pour les commits sur la branche principale
