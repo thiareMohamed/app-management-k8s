@@ -6,6 +6,11 @@ stages:
 build:
   stage: build
   image: docker:latest
+  services:
+    - "docker:dind"
+  variables: # not strictly needed, depending on runner configuration
+    DOCKER_HOST: "tcp://docker:2375"
+    DOCKER_TLS_CERTDIR: ""
   before_script:
     - echo "Clonage du dépôt..."
     - git clone $CI_REPOSITORY_URL
