@@ -43,3 +43,4 @@ Accédez à l'onglet "Actions" de votre dépôt GitHub pour suivre l'exécution 
 
 Après l'exécution réussie du workflow, votre image Docker sera publiée sur Docker Hub.
 
+### CI/CD avec GitLab CI
