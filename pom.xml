@@ -67,7 +67,7 @@
     </dependencies>
 
     <build>
-        <defaultGoal>install</defaultGoal>
+        <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -77,9 +77,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <goals>
-                    <goal>build-image</goal>
-                </goals>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
