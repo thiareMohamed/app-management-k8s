@@ -1,19 +1,35 @@
-# Définition du pipeline CI/CD
+# Définition du pipeline CI/CD push on docker hub with maven
 stages:
-  - clone
-  - publish
+  - build
+  - test
+  - deploy
+
+services:
+  - docker:19.03.12-dind
+
+variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
 
 build:
-  stage: clone
-  image: maven:latest
-  script:
-    - echo "Clonage du dépôt..."
-    - git clone $CI_REPOSITORY_URL
-    - cd app-management
+    stage: build
+    script:
+        - mvn -B clean package
+        - mvn -B spring-boot:build-image -Dspring-boot.build-image.publish=true -DskipTests
+    only:
+        - main
 
-publish:
-  stage: publish
-  image: maven:latest
-  script:
-    - echo "Publication sur Docker Hub..."
-    - mvn -B spring-boot:build-image -Dspring-boot.build-image.publish=true -Ddocker.user=$DOCKER_USERNAME -Ddocker.token=$DOCKER_PASSWORD -DskipTests
+test:
+    stage: test
+    script:
+        - mvn -B test
+    only:
+        - main
+
+deploy:
+    stage: deploy
+    script:
+        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        - docker push $DOCKER_USERNAME/app-management
+    only:
+        - main
