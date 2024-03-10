@@ -72,8 +72,8 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -91,6 +91,7 @@
                         <name>thiare29/${project.artifactId}:${project.version}</name>
                     </image>
                     <docker>
+                        <host>unix:///home/morrica/.docker/desktop/docker.sock</host>
                         <publishRegistry>
                             <username>${docker.user}</username>
                             <password>${docker.token}</password>
