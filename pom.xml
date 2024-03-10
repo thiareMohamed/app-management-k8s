@@ -81,7 +81,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>build-image</goal>
+                            <goal>build-info</goal>
                         </goals>
                     </execution>
                 </executions>
