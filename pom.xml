@@ -92,7 +92,7 @@
                         <name>thiare29/${project.artifactId}:${project.version}</name>
                     </image>
                     <docker>
-                        <host>unix:///home/morrica/.docker/desktop/docker.sock</host>
+<!--                        <host>unix:///home/morrica/.docker/desktop/docker.sock</host>-->
                         <publishRegistry>
                             <username>${docker.user}</username>
                             <password>${docker.token}</password>
