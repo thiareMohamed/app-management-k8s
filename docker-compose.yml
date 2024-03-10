@@ -4,9 +4,6 @@ services:
   app-management:
     image: app-management
     container_name: app-management
-    build:
-      context: .
-      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     restart: unless-stopped
