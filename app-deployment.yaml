@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: app-management
-          image: thiare29/app-management:latest
+          image: thiare29/app-management:0.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
