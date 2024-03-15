@@ -24,84 +24,61 @@ Utilisez le fichier database/db-deployment.yaml pour déployer la base de donné
 Exemple du fichier database/db-deployment.yaml :
 
 ```yaml
-# Configure 'PersistentVolume' for mysql server
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pv-claim
-  labels:
-    app: mysql
-    tier: database
 spec:
   accessModes:
-    - ReadWriteOnce   #This specifies the mode of the claim that we are trying to create.
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi    #This will tell kubernetes about the amount of space we are trying to claim.
-#    limits:
-#      memory: "512Mi"
-#      cpu: "1500m"
+      storage: 1Gi
 ---
 # Configure 'Deployment' of mysql server
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
-  labels:
-    app: mysql
-    tier: database
 spec:
-  selector: # mysql Pod Should contain same labels
+  selector:
     matchLabels:
       app: mysql
-      tier: database
   strategy:
     type: Recreate
-  template:
-    metadata:
-      labels: # Must match 'Service' and 'Deployment' selectors
-        app: mysql
-        tier: database
     spec:
       containers:
-        - image: mysql:5.8 # image from docker-hub
-          args:
-            - "--ignore-db-dir=lost+found" # Workaround for https://github.com/docker-library/mysql/issues/186
+        - image: mysql:5.8
           name: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: thiare29
+              value: 'password-value'
 
-            - name: MYSQL_DATABASE # Setting Database Name from a 'ConfigMap'
+            - name: MYSQL_DATABASE
               value: management
 
           ports:
             - containerPort: 3306
               name: mysql
-          volumeMounts:        # Mounting voulume obtained from Persistent Volume Claim
+          volumeMounts:
             - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql #This is the path in the container on which the mounting will take place.
+              mountPath: /var/lib/mysql
       volumes:
-        - name: mysql-persistent-storage # Obtaining 'vloume' from PVC
+        - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
 ---
-# Define a 'Service' To Expose mysql to Other Services
+# Configure 'Service' of mysql server
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql  # DNS name
-  labels:
-    app: mysql
-    tier: database
+  name: mysql
 spec:
   ports:
     - port: 3306
       targetPort: 3306
-  selector:       # mysql Pod Should contain same labels
+  selector:
     app: mysql
-    tier: database
-  clusterIP: None  # We Use DNS, Thus ClusterIP is not relevant
 ```
 ### Déploiement de l'Application:
 
@@ -110,7 +87,68 @@ Utilisez le fichier app/app-deployment.yaml pour déployer l'application sur Kub
 Exemple du fichier app/app-deployment.yaml :
 
 ```yaml
-
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-management
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-management
+    spec:
+      containers:
+        - name: app-management
+          image: thiare29/app-management:0.0.1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8081
+          resources:
+            limits:
+              cpu: 0.2
+              memory: "200Mi"
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-pass
+                  key: mysql-user-password
+            - name: DB_SERVER
+              valueFrom:
+                configMapKeyRef:
+                  name:  mysql-config-map
+                  key: mysql-server
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name:  mysql-config-map
+                  key: mysql-database-name
+            - name: DB_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql-config-map
+                  key: mysql-user-username
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-management
+  labels:
+    app: app-management
+spec:
+  type: LoadBalancer
+  selector:
+    app: app-management
+  ports:
+    - protocol: TCP
+      name: http
+      port: 8081
+      targetPort: 8081
+      nodePort: 30001
 ```
 
 ### Exposition des Services:
@@ -136,7 +174,32 @@ Publie l'image Docker sur Docker Hub en utilisant les secrets `DOCKER_USERNAME` 
 
 Le fichier `ci-cd.yml` dans le répertoire `.github/workflows/` contient la configuration de GitHub Actions pour notre processus CI/CD. Il est configuré pour :
 ```yaml
+name: CI/CD
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build with Maven
+        run: docker compose build
+
+      - name: connect to Docker Hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Tag with Docker Hub
+        run: docker tag app-management ${{ secrets.DOCKER_USERNAME }}/app-management:0.0.1
+
+      - name: Publish to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/app-management:0.0.1
 ```
 
 ### Merci
