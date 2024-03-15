@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-management
+  name: app-management2
   labels:
-    app: app-management
+    app: app-management2
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app-management
+      app: app-management2
   template:
     metadata:
       labels:
-        app: app-management
+        app: app-management2
     spec:
       containers:
-        - name: app-management
-          image: thiare29/app-management:latest
+        - name: app-management2
+          image: thiare29/app-management
           imagePullPolicy: Always
           ports:
             - name: http
@@ -52,13 +52,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-management
+  name: app-management2
   labels:
-    app: app-management
+    app: app-management2
 spec:
   type: LoadBalancer
   selector:
-    app: app-management
+    app: app-management2
   ports:
     - protocol: TCP
       name: http
