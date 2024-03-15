@@ -2,13 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app-management
-  labels:
-    app: app-management
 spec:
   replicas: 1
-  selector:
-    matchLabels:
-      app: app-management
   template:
     metadata:
       labels:
@@ -17,7 +12,7 @@ spec:
       containers:
         - name: app-management
           image: thiare29/app-management:0.0.1
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8081
